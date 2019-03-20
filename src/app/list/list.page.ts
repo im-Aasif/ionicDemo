@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiService } from './../api.service';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-list',
@@ -6,6 +9,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['list.page.scss']
 })
 export class ListPage implements OnInit {
+  vehicles$: Observable<any>;
   private selectedItem: any;
   private icons = [
     'flask',
@@ -20,7 +24,7 @@ export class ListPage implements OnInit {
     'build'
   ];
   public items: Array<{ title: string; note: string; icon: string }> = [];
-  constructor() {
+  constructor(private api: ApiService, private http: HttpClient) {
     for (let i = 1; i < 11; i++) {
       this.items.push({
         title: 'Item ' + i,
@@ -31,6 +35,7 @@ export class ListPage implements OnInit {
   }
 
   ngOnInit() {
+    this.vehicles$ = this.api.getVehicles();
   }
   // add back when alpha.4 is out
   // navigate(item) {
